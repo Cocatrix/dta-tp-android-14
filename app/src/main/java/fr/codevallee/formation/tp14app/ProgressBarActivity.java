@@ -15,9 +15,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ProgressBarActivity extends AppCompatActivity {
     private Handler handler;
     private ProgressBar pBar;
-
+    private ProgressBar pDLBar;
     private AtomicBoolean isRunning = new AtomicBoolean(false);
     private AtomicBoolean isPausing = new AtomicBoolean(false);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class ProgressBarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_progress_bar);
 
         this.pBar = (ProgressBar) findViewById(R.id.progressBar);
+        this.pDLBar = (ProgressBar) findViewById(R.id.progressBarDownload);
 
         this.handler = new Handler() {
             public void handleMessage(Message message) {
@@ -64,6 +66,12 @@ public class ProgressBarActivity extends AppCompatActivity {
         isRunning.set(true);
         progressThread.start();
 
+    }
+
+    protected void download(View view) {
+        Log.d("STATE","download !");
+        ProgressBarAsyncTask task = new ProgressBarAsyncTask(this.pDLBar,getApplicationContext());
+        task.execute();
     }
 
     @Override
